@@ -24,6 +24,14 @@ namespace ProjectPlanner.Controllers
         //
         // GET: /Account/Create
 
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/Create
+
         [HttpPost]
         public ActionResult Create(CreateModel model)
         {
@@ -35,12 +43,10 @@ namespace ProjectPlanner.Controllers
 
                 ctx.Users.Add(user);
 
-                LogOn(new LogOnModel { Username = model.Username, Password = model.Password, RemindMe = false }, null);
-
-                return RedirectToAction("Index", "Home");
+                return LogOn(new LogOnModel { Username = model.Username, Password = model.Password, RemindMe = false }, Url.Action("Index", "Home"));
             }            
 
-            return View();
+            return null;
         }
 
         //
