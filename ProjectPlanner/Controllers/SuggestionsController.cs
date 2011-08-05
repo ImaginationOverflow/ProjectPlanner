@@ -28,7 +28,24 @@ namespace ProjectPlanner.Controllers
             {
                 ProjectPlannerContext ctx = new ProjectPlannerContext();
                 User currentUser = ctx.Users.SingleOrDefault(u => u.Username.Equals(User.Identity.Name));
+                Idea idea = new Idea(model.Name, model.BriefDescription, model.Description);
 
+                currentUser.Suggestions.Add(idea);
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Remove(int ideaID)
+        {
+            if (ModelState.IsValid)
+            {
+                ProjectPlannerContext ctx = new ProjectPlannerContext();
+                User currentUser = ctx.Users.SingleOrDefault(u => u.Username.Equals(User.Identity.Name));
+                Idea idea = currentUser.Suggestions.SingleOrDefault(i => i.IdeaID == ideaID);
+
+                currentUser.Suggestions.Remove(idea);
             }
 
             return View();
