@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "ProjectPlanner";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ProjectPlanner - V0.1</h2>
+
+@if (!User.Identity.IsAuthenticated)
+    @Html.Partial("LogOnPartial")
+else
+{
+    <p>Welcome, @User.Identity.Name.</p>
+    
+    <p>Menu</p>
+    <a href="@Url.Action("")"
+}
