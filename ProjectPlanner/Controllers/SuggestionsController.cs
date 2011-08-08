@@ -17,9 +17,8 @@ namespace ProjectPlanner.Controllers
         {
             ProjectPlannerContext ctx = new ProjectPlannerContext();
 
-            return View(ctx.Users.Select(p => p.Suggestions));
+            return View(ctx.Users.Single(u => u.Username == User.Identity.Name).Suggestions);
         }
-        
 
         //
         // GET: /Suggestions/
@@ -34,15 +33,48 @@ namespace ProjectPlanner.Controllers
         }
 
         //
-        // GET: /Suggestions/SupportedSuggestions
+        // GET: /Suggestions/Supported
 
-        public ActionResult SupportedSuggestions(string name)
+        public ActionResult Supported(string name)
         {
             ProjectPlannerContext ctx = new ProjectPlannerContext();
 
             string username = ModelState.IsValid ? name : User.Identity.Name;
 
             return View(ctx.Users.Single(u => u.Username == username).SupportedSuggestions);
+        }
+
+        //
+        // GET: /Suggestions/Approved
+
+        public ActionResult Approved()
+        {
+            ProjectPlannerContext ctx = new ProjectPlannerContext();
+
+            return View(ctx.ApprovedIdeas);
+        }
+
+        //
+        // GET: /Suggestions/All
+
+        public ActionResult All()
+        {
+            ProjectPlannerContext ctx = new ProjectPlannerContext();
+
+            IEnumerable<Idea> allIdeas = null;
+
+            foreach(ICollection<Idea> allOfUser in ctx.Users.Select(p => p.Suggestions)) 
+            {
+                if (allIdeas == null)
+                    allIdeas = allOfUser;
+                else
+                {
+                    allIdeas = allIdeas.Union(allOfUser);
+                }
+            }
+
+
+            return View(allIdeas);
         }
 
         //

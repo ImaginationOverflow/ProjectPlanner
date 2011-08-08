@@ -1,0 +1,11 @@
+﻿<p>Menu</p>
+<ul>
+    <li><a href="@Url.Action("Approved", "Suggestions")">Approved Suggestions</a></li>
+    <li><a href="@Url.Action("All", "Suggestions")">All Suggestions</a></li>
+
+    @if(User.Identity.IsAuthenticated) 
+    {
+        <li><a href="@Url.Action("Index", "Suggestions")">Your Suggestions</a></li>
+        <li><a href="@Url.Action("Supported", "Suggestions")">Supported</a></li>
+    }
+</ul>

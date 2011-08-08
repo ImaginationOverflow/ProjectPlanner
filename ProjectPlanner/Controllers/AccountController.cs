@@ -22,18 +22,18 @@ namespace ProjectPlanner.Controllers
         }
 
         //
-        // GET: /Account/Create
+        // GET: /Account/Register
 
-        public ActionResult Create()
+        public ActionResult Register()
         {
             return View();
         }
 
         //
-        // POST: /Account/Create
+        // POST: /Account/Register
 
         [HttpPost]
-        public ActionResult Create(CreateModel model)
+        public ActionResult Register(CreateModel model)
         {
             if (ModelState.IsValid)
             {

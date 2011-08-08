@@ -24,4 +24,10 @@ namespace ProjectPlanner.Models
 
         public string Email { get; set; }
     }
+
+    public enum Registration
+    {
+        Open,
+        Closed
+    }
 }

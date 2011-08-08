@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Configuration;
+using Model;
 
 namespace ProjectPlanner
 {
@@ -38,7 +39,6 @@ namespace ProjectPlanner
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            FormsAuthentication.DefaultUrl = ConfigurationManager.AppSettings["DefaultRedirectUrl"];
         }
     }
 }

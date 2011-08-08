@@ -1,6 +1,20 @@
-﻿@model ProjectPlanner.Models.LogOnModel
+﻿@using ProjectPlanner.Models;
+@using System.Configuration;
+
+@model ProjectPlanner.Models.LogOnModel
 
 @using (Html.BeginForm())
 {
     @Html.EditorForModel()
+
+    <input type="submit" value="Log In" />
+}
+
+@{
+    Registration registrationStatus = (Registration)Enum.Parse(typeof(Registration), ConfigurationManager.AppSettings["Registration"], true);
+
+    if (registrationStatus == Registration.Open)
+    {
+        <p>Not yet registered? <a href="@Url.Action("Register", "Account")">Register now!</a></p>   
+    } 
 }
