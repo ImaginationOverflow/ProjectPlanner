@@ -7,12 +7,12 @@ namespace Model
 {
     public class Idea
     {
-        public Idea(string name, string briefdescription, string description)
-        {
-            Name = name;
-            BriefDescription = briefdescription;
-            Description = description;
-        }
+        //public Idea(string name, string briefdescription, string description)
+        //{
+        //    Name = name;
+        //    BriefDescription = briefdescription;
+        //    Description = description;
+        //}
 
         public int IdeaID { get; set; }
 

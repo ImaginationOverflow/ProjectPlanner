@@ -7,13 +7,13 @@ namespace Model
 {
     public class User
     {
-        public User(string username, string passwordhash, string name, string email)
-        {
-            Username = username;
-            PasswordHash = passwordhash;
-            Name = name;
-            Email = email;
-        }
+        //public User(string username, string passwordhash, string name, string email)
+        //{
+        //    Username = username;
+        //    PasswordHash = passwordhash;
+        //    Name = name;
+        //    Email = email;
+        //}
 
         public string Name { get; set; }
 

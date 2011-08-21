@@ -7,6 +7,7 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Configuration;
 using Model;
+using System.Data.Entity;
 
 namespace ProjectPlanner
 {
@@ -39,6 +40,7 @@ namespace ProjectPlanner
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
+            Database.SetInitializer<ProjectPlannerContext>(new DropCreateDatabaseIfModelChanges<ProjectPlannerContext>());
         }
     }
 }

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Model.Idea>
+
+@{
+    ViewBag.Title = "Approved";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Approved</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            BriefDescription
+        </th>
+        <th>
+            Description
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BriefDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdeaID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdeaID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdeaID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -17,7 +17,7 @@ namespace ProjectPlanner.Controllers
         {
             ProjectPlannerContext ctx = new ProjectPlannerContext();
 
-            return View(ctx.Users.Single(u => u.Username == User.Identity.Name).Suggestions);
+            return View("SuggestionsList", ctx.Users.Single(u => u.Username == User.Identity.Name).Suggestions);
         }
 
         //
@@ -29,7 +29,7 @@ namespace ProjectPlanner.Controllers
 
             string username = ModelState.IsValid ? name : User.Identity.Name;
 
-            return View(ctx.Users.Single(u => u.Username == username).Suggestions);
+            return View("SuggestionsList", ctx.Users.Single(u => u.Username == username).Suggestions);
         }
 
         //
@@ -41,7 +41,7 @@ namespace ProjectPlanner.Controllers
 
             string username = ModelState.IsValid ? name : User.Identity.Name;
 
-            return View(ctx.Users.Single(u => u.Username == username).SupportedSuggestions);
+            return View("SuggestionsList", ctx.Users.Single(u => u.Username == username).SupportedSuggestions);
         }
 
         //
@@ -51,7 +51,7 @@ namespace ProjectPlanner.Controllers
         {
             ProjectPlannerContext ctx = new ProjectPlannerContext();
 
-            return View(ctx.ApprovedIdeas);
+            return View("SuggestionsList", ctx.ApprovedIdeas);
         }
 
         //
@@ -74,7 +74,7 @@ namespace ProjectPlanner.Controllers
             }
 
 
-            return View(allIdeas);
+            return View("SuggestionsList", allIdeas);
         }
 
         //
@@ -102,7 +102,7 @@ namespace ProjectPlanner.Controllers
             {
                 ProjectPlannerContext ctx = new ProjectPlannerContext();
                 User currentUser = ctx.Users.SingleOrDefault(u => u.Username.Equals(User.Identity.Name));
-                Idea idea = new Idea(model.Name, model.BriefDescription, model.Description);
+                Idea idea = new Idea { Name = model.Name, BriefDescription = model.BriefDescription, Description = model.Description };
 
                 currentUser.Suggestions.Add(idea);
 

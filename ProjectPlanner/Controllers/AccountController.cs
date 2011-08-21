@@ -39,7 +39,7 @@ namespace ProjectPlanner.Controllers
             {
                 ProjectPlannerContext ctx = new ProjectPlannerContext();
             
-                User user = new User(model.Username, model.Password.GetHash(), model.Name, model.Email);
+                User user = new User { Username = model.Username, PasswordHash = model.Password.GetHash(), Name = model.Name, Email = model.Email };
 
                 ctx.Users.Add(user);
 

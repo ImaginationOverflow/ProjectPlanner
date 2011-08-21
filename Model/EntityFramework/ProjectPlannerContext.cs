@@ -16,7 +16,7 @@ namespace Model
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new IdeaConfiguration());
-            modelBuilder.Configurations.Add(new UserConfiguration());
+            modelBuilder.Configurations.Add(new UserConfiguration());        
         }
     }
 }

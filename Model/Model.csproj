@@ -46,10 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Idea.cs" />
-    <Compile Include="ProjectPlannerContext.cs" />
+    <Compile Include="EntityFramework\IdeaConfiguration.cs" />
+    <Compile Include="EntityFramework\UserConfiguration.cs" />
+    <Compile Include="Implementation\Idea.cs" />
+    <Compile Include="EntityFramework\ProjectPlannerContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="User.cs" />
+    <Compile Include="Implementation\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
