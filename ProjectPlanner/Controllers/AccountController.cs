@@ -8,6 +8,7 @@ using ProjectPlanner.Models;
 using System.Web.Security;
 using System.Web.Configuration;
 using ProjectPlanner.Utils;
+using System.Data.Entity.Infrastructure;
 
 namespace ProjectPlanner.Controllers
 {
@@ -43,7 +44,19 @@ namespace ProjectPlanner.Controllers
 
                 ctx.Users.Add(user);
 
-                return LogOn(new LogOnModel { Username = model.Username, Password = model.Password, RemindMe = false }, Url.Action("Index", "Home"));
+                try
+                {
+                    ctx.SaveChanges();
+
+                    return LogOn(new LogOnModel { Username = model.Username, Password = model.Password, RemindMe = false }, Url.Action("Index", "Home"));
+                }
+                catch (DbUpdateException)
+                {
+                    ViewBag.Error = "Username already exists!";
+
+                    return View(model);
+                }
+                
             }            
 
             return null;
@@ -62,6 +75,8 @@ namespace ProjectPlanner.Controllers
                 if(ctx.Users.SingleOrDefault(p => (p.Username.Equals(model.Username) && p.PasswordHash.Equals(passwordHash))) != null) 
                 {
                     FormsAuthentication.SetAuthCookie(model.Username, model.RemindMe);
+
+                    return Redirect(returnUrl);
                 }
             }
 

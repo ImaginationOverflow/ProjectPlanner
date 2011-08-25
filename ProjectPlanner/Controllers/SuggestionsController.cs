@@ -13,23 +13,13 @@ namespace ProjectPlanner.Controllers
         //
         // GET: /Suggestions/
 
-        public ActionResult Index()
-        {
-            ProjectPlannerContext ctx = new ProjectPlannerContext();
-
-            return View("SuggestionsList", ctx.Users.Single(u => u.Username == User.Identity.Name).Suggestions);
-        }
-
-        //
-        // GET: /Suggestions/
-
         public ActionResult Index(string name)
         {
             ProjectPlannerContext ctx = new ProjectPlannerContext();
 
-            string username = ModelState.IsValid ? name : User.Identity.Name;
+            string username = name != null ? name : User.Identity.Name;
 
-            return View("SuggestionsList", ctx.Users.Single(u => u.Username == username).Suggestions);
+            return View(ctx.Users.Single(u => u.Username == username).Suggestions);
         }
 
         //
@@ -39,9 +29,9 @@ namespace ProjectPlanner.Controllers
         {
             ProjectPlannerContext ctx = new ProjectPlannerContext();
 
-            string username = ModelState.IsValid ? name : User.Identity.Name;
+            string username = name != null ? name : User.Identity.Name;
 
-            return View("SuggestionsList", ctx.Users.Single(u => u.Username == username).SupportedSuggestions);
+            return View(ctx.Users.Single(u => u.Username == username).SupportedSuggestions);
         }
 
         //
@@ -51,7 +41,7 @@ namespace ProjectPlanner.Controllers
         {
             ProjectPlannerContext ctx = new ProjectPlannerContext();
 
-            return View("SuggestionsList", ctx.ApprovedIdeas);
+            return View(ctx.ApprovedIdeas);
         }
 
         //
@@ -74,7 +64,7 @@ namespace ProjectPlanner.Controllers
             }
 
 
-            return View("SuggestionsList", allIdeas);
+            return View(allIdeas);
         }
 
         //
@@ -92,11 +82,19 @@ namespace ProjectPlanner.Controllers
             return Json(true);
         }
 
+        // 
+        // GET: /Suggestions/Create
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
         //
-        // POST: /Suggestions/Add
+        // POST: /Suggestions/Create
         
         [HttpPost]
-        public ActionResult Add(IdeaModel model)
+        public ActionResult Create(IdeaModel model)
         {
             if (ModelState.IsValid)
             {
@@ -106,12 +104,13 @@ namespace ProjectPlanner.Controllers
 
                 currentUser.Suggestions.Add(idea);
 
+                ctx.SaveChanges();
+
                 return Json(idea.IdeaID);
             }
 
-            return View();
+            return View(model);
         }
-
         
         //
         // POST: /Suggestions/Remove
@@ -126,6 +125,8 @@ namespace ProjectPlanner.Controllers
                 Idea idea = currentUser.Suggestions.SingleOrDefault(i => i.IdeaID == ideaID);
 
                 currentUser.Suggestions.Remove(idea);
+
+                ctx.SaveChanges();
 
                 return Redirect(successUrl);
             }

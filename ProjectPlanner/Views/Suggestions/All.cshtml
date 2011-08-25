@@ -1,15 +1,12 @@
 ﻿@model IEnumerable<Model.Idea>
 
 @{
-    ViewBag.Title = "Approved";
+    ViewBag.Title = "All";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Approved</h2>
+<h2>All</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table>
     <tr>
         <th>
@@ -36,9 +33,8 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdeaID }) |
             @Html.ActionLink("Details", "Details", new { id=item.IdeaID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdeaID })
+            @Html.ActionLink("Support", "Support", new { id = item.IdeaID })
         </td>
     </tr>
 }

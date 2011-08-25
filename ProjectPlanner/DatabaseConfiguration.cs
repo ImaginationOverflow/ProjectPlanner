@@ -7,7 +7,7 @@ using Model;
 
 namespace ProjectPlanner
 {
-    public class DatabaseInitializer : IDatabaseInitializer<ProjectPlannerContext>
+    public class DatabaseConfiguration : IDatabaseInitializer<ProjectPlannerContext>
     {
         public void InitializeDatabase(ProjectPlannerContext context)
         {
