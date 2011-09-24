@@ -42,21 +42,16 @@ namespace ProjectPlanner.Controllers
             
                 User user = new User { Username = model.Username, PasswordHash = model.Password.GetHash(), Name = model.Name, Email = model.Email };
 
-                ctx.Users.Add(user);
-
-                try
-                {
-                    ctx.SaveChanges();
-
-                    return LogOn(new LogOnModel { Username = model.Username, Password = model.Password, RemindMe = false }, Url.Action("Index", "Home"));
-                }
-                catch (DbUpdateException)
+                if (ctx.Users.SingleOrDefault(u => u.Username == model.Username) != null)
                 {
                     ViewBag.Error = "Username already exists!";
 
                     return View(model);
                 }
-                
+
+                ctx.Users.Add(user);
+                ctx.SaveChanges();
+                return LogOn(new LogOnModel { Username = model.Username, Password = model.Password, RemindMe = false }, Url.Action("Index", "Home"));
             }            
 
             return null;
@@ -78,9 +73,21 @@ namespace ProjectPlanner.Controllers
 
                     return Redirect(returnUrl);
                 }
+
+                ViewBag.Error = "Couldn't find the user or password did not match!";
             }
 
             return View();
+        }
+
+        //
+        // GET: /Account/LogOut
+
+        public ActionResult LogOut()
+        {
+            FormsAuthentication.SignOut();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

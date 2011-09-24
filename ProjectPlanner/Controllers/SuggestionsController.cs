@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ProjectPlanner.Models;
 using Model;
+using System.Configuration;
 
 namespace ProjectPlanner.Controllers
 {
@@ -19,7 +20,7 @@ namespace ProjectPlanner.Controllers
 
             string username = name != null ? name : User.Identity.Name;
 
-            return View(ctx.Users.Single(u => u.Username == username).Suggestions);
+            return View(ctx.Users.Single(u => u.Username.Equals(username)).Suggestions);
         }
 
         //
@@ -31,7 +32,7 @@ namespace ProjectPlanner.Controllers
 
             string username = name != null ? name : User.Identity.Name;
 
-            return View(ctx.Users.Single(u => u.Username == username).SupportedSuggestions);
+            return View(ctx.Ideas.Where(i => i.Approvers.Contains(ctx.Users.FirstOrDefault(u => u.Username.Equals(username)))));
         }
 
         //
@@ -41,7 +42,8 @@ namespace ProjectPlanner.Controllers
         {
             ProjectPlannerContext ctx = new ProjectPlannerContext();
 
-            return View(ctx.ApprovedIdeas);
+            int approvingThreshold = int.Parse(ConfigurationManager.AppSettings["ApprovingThreshold"]);
+            return View(ctx.Ideas.Where(i => i.Approvers.Count > approvingThreshold));
         }
 
         //
@@ -76,10 +78,13 @@ namespace ProjectPlanner.Controllers
             ProjectPlannerContext ctx = new ProjectPlannerContext();
 
             Idea idea = ctx.Users.Select(u => u.Suggestions).Single(l => l.Where(s => s.IdeaID == ideaID).Count() != 0).Single(s => s.IdeaID == ideaID);
+            User approver = ctx.Users.Single(u => u.Username.Equals(User.Identity.Name));
 
-            ctx.Users.Single(u => u.Username == User.Identity.Name).SupportedSuggestions.Add(idea);
+            if (idea.Approvers == null) idea.Approvers = new List<User>();
+            idea.Approvers.Add(approver);
+            ctx.SaveChanges();
 
-            return Json(true);
+            return View("Supported");
         }
 
         // 
@@ -113,10 +118,36 @@ namespace ProjectPlanner.Controllers
         }
         
         //
+        // GET: /Suggestions/Details
+
+        public ActionResult Details(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                ProjectPlannerContext ctx = new ProjectPlannerContext();
+                
+                IEnumerable<Idea> allIdeas = null;
+                foreach(ICollection<Idea> allOfUser in ctx.Users.Select(p => p.Suggestions)) 
+                {
+                    if (allIdeas == null)
+                        allIdeas = allOfUser;
+                    else
+                        allIdeas = allIdeas.Union(allOfUser);
+                }
+                allIdeas = allIdeas.Union(ctx.Ideas);
+                
+                Idea idea = allIdeas.SingleOrDefault(i => i.IdeaID == id);
+                return View(idea);
+            }
+
+            throw new InvalidOperationException("IdeaID unexistant or invalid");
+        }
+
+        //
         // POST: /Suggestions/Remove
 
         [HttpPost]
-        public ActionResult Remove(int ideaID, string successUrl)
+        public ActionResult Remove(int ideaID)
         {
             if (ModelState.IsValid)
             {
@@ -128,7 +159,7 @@ namespace ProjectPlanner.Controllers
 
                 ctx.SaveChanges();
 
-                return Redirect(successUrl);
+                return View();
             }
 
             return View();

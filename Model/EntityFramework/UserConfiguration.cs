@@ -10,10 +10,11 @@ namespace Model.EntityFramework
     {
         public UserConfiguration()
         {
+            HasKey(u => u.Id);
+
             Property(u => u.Username).IsRequired();
             Property(u => u.PasswordHash).IsRequired();
-
-            HasKey<string>(u => u.Username);
+            Property(u => u.Name).IsRequired();
         }
     }
 }

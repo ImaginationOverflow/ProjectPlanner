@@ -3,10 +3,44 @@
 
 @model ProjectPlanner.Models.LogOnModel
 
-@using (Html.BeginForm())
-{
-    @Html.EditorForModel()
 
+@if(ViewBag.Error != null) 
+{
+    <p class="login-error">@ViewBag.Error</p>
+}
+
+@using (Html.BeginForm("LogOn", "Account"))
+{
+    <fieldset>
+        <legend>CreateModel</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Username)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Username)
+            @Html.ValidationMessageFor(model => model.Username)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Password)
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RemindMe)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.RemindMe)
+            @Html.ValidationMessageFor(model => model.Username)
+        </div>
+    </fieldset>
+
+    @Html.HiddenFor(model => model.returnUrl)
+    
     <input type="submit" value="Log In" />
 }
 

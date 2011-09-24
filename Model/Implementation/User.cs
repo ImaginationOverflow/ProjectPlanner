@@ -7,13 +7,7 @@ namespace Model
 {
     public class User
     {
-        //public User(string username, string passwordhash, string name, string email)
-        //{
-        //    Username = username;
-        //    PasswordHash = passwordhash;
-        //    Name = name;
-        //    Email = email;
-        //}
+        public int Id { get; set; }
 
         public string Name { get; set; }
 
@@ -25,6 +19,6 @@ namespace Model
 
         public virtual ICollection<Idea> Suggestions { get; set; }
 
-        public virtual ICollection<Idea> SupportedSuggestions { get; set; }
+        public virtual ICollection<Idea> Approved { get; set; }
     }
 }

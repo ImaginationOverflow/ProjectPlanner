@@ -1,4 +1,6 @@
-﻿@{
+﻿@using ProjectPlanner.Models
+
+@{
     ViewBag.Title = "ProjectPlanner";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -7,11 +9,12 @@
 
 @if (!User.Identity.IsAuthenticated)
 {
-    @Html.Partial("LogOnPartial")
+    @Html.Partial("LogOnPartial", new LogOnModel { returnUrl = @Url.Action("Index") })
 }
 else
 {
-    <p>Welcome, @User.Identity.Name.</p>
+    <p>Welcome, @User.Identity.Name.</p> <br />
+    @Html.ActionLink("LogOut", "LogOut", "Account");    
 }
 
 @Html.Partial("Menu")

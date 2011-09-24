@@ -1,11 +1,12 @@
-﻿@model IEnumerable<Model.Idea>
+﻿@using ProjectPlanner.Utils
+@model IEnumerable<Model.Idea>
 
 @{
     ViewBag.Title = "All";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>All</h2>
+<h2>All submitted suggestions.</h2>
 
 <table>
     <tr>
@@ -15,10 +16,6 @@
         <th>
             BriefDescription
         </th>
-        <th>
-            Description
-        </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -30,13 +27,32 @@
             @Html.DisplayFor(modelItem => item.BriefDescription)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
             @Html.ActionLink("Details", "Details", new { id=item.IdeaID }) |
-            @Html.ActionLink("Support", "Support", new { id = item.IdeaID })
+            @if (!item.Creator.Username.Equals(User.Identity.Name))
+            {
+                <p class="support-button" id="@item.IdeaID">Support</p>      
+            }
         </td>
     </tr>
 }
 
 </table>
+
+<script type="text/javascript">
+
+    $(".support-button").click(
+        function (args) {
+            $.ajax("@Url.Action("Support", "Suggestions")", 
+            {
+                data : { ideaID : args.target.id },
+                type : 'POST',
+                success : function (data) {
+                    if(data == "ok") {
+                        $(args.target).remove();
+                    }
+                }
+            });            
+        }
+    );
+
+</script>

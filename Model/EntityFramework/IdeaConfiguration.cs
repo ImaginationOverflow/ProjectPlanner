@@ -12,6 +12,8 @@ namespace Model.EntityFramework
         {
             Property(e => e.Name).IsRequired();
             Property(e => e.BriefDescription).IsRequired();
+
+            HasRequired(i => i.Creator).WithMany(u => u.Suggestions).HasForeignKey(i => i.CreatorID);
         }
     }
 }

@@ -1,11 +1,13 @@
-﻿@model IEnumerable<Model.Idea>
+﻿@using ProjectPlanner.Utils
+
+@model IEnumerable<Model.Idea>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Your suggestions.</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -17,9 +19,6 @@
         </th>
         <th>
             BriefDescription
-        </th>
-        <th>
-            Description
         </th>
         <th></th>
     </tr>
@@ -33,12 +32,13 @@
             @Html.DisplayFor(modelItem => item.BriefDescription)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.IdeaID }) |
             @Html.ActionLink("Details", "Details", new { id=item.IdeaID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdeaID })
+            @using(Html.BeginForm("Remove", "Suggestions")) {
+                @Html.Hidden("ideaID", item.IdeaID)
+                @Html.Hidden("successUrl", Url.Action("Index"))
+                @Html.Submit("Remove")
+            }
         </td>
     </tr>
 }

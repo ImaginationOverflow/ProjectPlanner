@@ -7,13 +7,6 @@ namespace Model
 {
     public class Idea
     {
-        //public Idea(string name, string briefdescription, string description)
-        //{
-        //    Name = name;
-        //    BriefDescription = briefdescription;
-        //    Description = description;
-        //}
-
         public int IdeaID { get; set; }
 
         public string Name { get; set; }
@@ -21,5 +14,11 @@ namespace Model
         public string BriefDescription { get; set; }
 
         public string Description { get; set; }
+
+        public int CreatorID { get; set; }
+
+        public virtual User Creator { get; set; }
+
+        public virtual ICollection<User> Approvers { get; set; }
     }
 }
