@@ -8,6 +8,7 @@ using System.Web.Security;
 using System.Configuration;
 using Model;
 using System.Data.Entity;
+using Devtalk.EF.CodeFirst;
 
 namespace ProjectPlanner
 {
@@ -40,7 +41,7 @@ namespace ProjectPlanner
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            Database.SetInitializer<ProjectPlannerContext>(new DropCreateDatabaseIfModelChanges<ProjectPlannerContext>());
+            Database.SetInitializer<ProjectPlannerContext>(new DontDropDbJustCreateTablesIfModelChanged<ProjectPlannerContext>());
         }
     }
 }
